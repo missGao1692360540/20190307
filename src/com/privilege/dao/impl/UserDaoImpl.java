@@ -13,19 +13,19 @@ public class UserDaoImpl implements UserDao {
     private QueryRunner queryRunner = C3P0Util.getqueryRunner();
     @Override
     public int login(String username, String password)  {
-        String sql = "select  count(*) from users where username=? and password=?";
-        Long count = 0l;
+        String sql = "select  count(*) from \"users\" where \"username\"=? and \"password\"=?";
+        String count = null;
         try {
-            count = (Long)queryRunner.query(sql,new ScalarHandler(1),username,password);
+            count = queryRunner.query(sql,new ScalarHandler(1),username,password).toString();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return count.intValue();
+        return Integer.parseInt(count);
     }
 
     @Override
     public int addUser(User user) {
-        String sql = "INSERT INTO users VALUES(null,?,?,?)";
+        String sql = "INSERT INTO \"users\" VALUES(id.nextval,?,?,?)";
         int rows = 0;
         try {
             rows = queryRunner.update(sql, user.getUsername(), user.getPassword(), user.getNickname());
@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public int updatepass(int id,String pass) {
-        String sql = "UPDATE users SET PASSWORD=? WHERE id=?";
+        String sql = "UPDATE \"users\" SET \"password\"=? WHERE \"id\"=?";
         int row = 0;
         try {
             row = queryRunner.update(sql,pass,id);

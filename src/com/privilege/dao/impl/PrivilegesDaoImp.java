@@ -13,7 +13,7 @@ public class PrivilegesDaoImp implements PrivilegesDao {
     private QueryRunner queryRunner = C3P0Util.getqueryRunner();
     @Override
     public List<Privileges> getPrivilegeList(int roleid) {
-        String sql = "select * from privileges where id  in(select privilege_id from roleprivilege where role_id=?)";
+        String sql = "select * from \"privileges\" where \"id\"  in(select \"privilege_id\" from \"roleprivilege\" where \"role_id\"=?)";
 
         List<Privileges> privilegeList=null;
         try {
@@ -26,7 +26,7 @@ public class PrivilegesDaoImp implements PrivilegesDao {
 
     @Override
     public List<Privileges> getPrivilegeLists(int roleid) {
-        String sql="select * from privileges where id  not in(select privilege_id from roleprivilege where role_id=?)";
+        String sql="select * from \"privileges\" where \"id\"  not in(select \"privilege_id\" from \"roleprivilege\" where \"role_id\"=?)";
         List<Privileges> privilegesList=null;
         try {
             privilegesList = queryRunner.query(sql, new BeanListHandler<Privileges>(Privileges.class),roleid);
@@ -50,7 +50,7 @@ public class PrivilegesDaoImp implements PrivilegesDao {
 
     @Override
     public int addPrivilege(Privileges privilege) {
-        String sql = "INSERT INTO privileges VALUES(null,?,?,?)";
+        String sql = "INSERT INTO \"privileges\" VALUES(id.nextval,?,?,?)";
         int row=0;
         try {
             row = queryRunner.update(sql, privilege.getName(), privilege.getFnpath(), privilege.getDescription());
@@ -62,7 +62,7 @@ public class PrivilegesDaoImp implements PrivilegesDao {
 
     @Override
     public List<Privileges> selectPrivilege() {
-        String sql = "select * from privileges";
+        String sql = "select * from \"privileges\"";
         List<Privileges> privilegesList = null;
         try {
             privilegesList = queryRunner.query(sql, new BeanListHandler<Privileges>(Privileges.class));

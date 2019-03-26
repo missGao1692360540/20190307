@@ -25,7 +25,7 @@ public class RolesDaoImpl implements RolesDao {
 
     @Override
     public int addRole(Roles role) {
-        String sql = "INSERT INTO roles VALUES(null,?,?)";
+        String sql = "INSERT INTO \"roles\" VALUES(id.nextval,?,?)";
         int row = 0;
         try {
             row = queryRunner.update(sql, role.getName(), role.getDescription());
